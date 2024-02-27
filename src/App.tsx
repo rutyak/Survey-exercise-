@@ -1,11 +1,12 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './Navbar/Navbar';
+import Form from './Pages/formBlock/Form';
 
 function App() {
   return (
     <div className="App">
-        <h1>Working fine</h1>
+        <Navbar/>
+        <Form/>
     </div>
   );
 }
