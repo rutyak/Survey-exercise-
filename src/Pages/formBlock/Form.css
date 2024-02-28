@@ -84,7 +84,7 @@
     margin-top: 0.5rem;
     border-radius: 0.5rem;
     border: 1px solid black;
-    background: #433ec0;
+    background: #225b19;
 }
 
 .questions{
@@ -105,4 +105,14 @@
     border-radius: 0.5rem;
     background: black;
     color: antiquewhite;
+}
+
+.options input{
+    width: 76%;
+}
+
+.options button{
+    height: 2.3rem;
+    background: #0f785a;
+    margin-left: 0.5rem;
 }

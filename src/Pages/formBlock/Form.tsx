@@ -4,6 +4,8 @@ import './Form.css'
 
 const Form = () => {
 
+  const [error, setError] = useState<boolean>(false);
+
   type typeTitleDesc = {
     title: string,
     desc: string
@@ -21,7 +23,7 @@ const Form = () => {
   const [que, setQue] = useState<queType[]>([{ type: '', question: '', options: [] }])
 
   function addQuestion(type: string) {
-    const opt = type !== 'single' ? [''] : [];
+    const opt = [''];
     setQue([
       ...que,
       { type: type, question: '', options: opt }
@@ -34,6 +36,50 @@ const Form = () => {
     const object = questions[index]; // taking specific que
     object.question = e.target.value; //updating that que
   }
+
+  function handleOptions(e: React.ChangeEvent<HTMLInputElement>, index: number, optIndex: number) {
+
+    const question = [...que]; //copy of que array
+    const mainQue = {...question[index]}; // taking specific que
+    mainQue.options[optIndex] = e.target.value; //updating that que
+  }
+
+  function addOption(type: string, index: number){
+    const updatedQue = [...que];  //copy of entire que
+    const opt = [...updatedQue[index].options,''];
+
+    updatedQue[index]={ 
+      ...updatedQue[index], //copy of specific que
+      options: opt  //specific que object
+    };
+    
+    setQue(updatedQue);
+  }
+
+  function handleRemove(e:any, index: number, optIndex: number){
+    console.log('index: ',optIndex)
+    console.log('handleRemove clicked')
+    const removed = que[index]?.options?.filter((_,i)=>(optIndex !== i));
+    console.log('removed: ',removed)
+
+     const copyQue = [...que];
+     
+     copyQue[index] = {
+       ...copyQue[index],
+       options: removed
+     }
+     setQue(copyQue)
+  }
+
+  function handleSubmit(){
+     console.log('Submit clicked');
+     que?.map((que:any, index:number)=>{
+          if(que.question === ''){
+            setError(true);
+          }
+     })
+  }
+
   console.log('que',que)
   console.log('titleDesc',titleDesc)
 
@@ -91,7 +137,17 @@ const Form = () => {
                   {(ques.type === 'checkbox' || ques.type === 'radio') &&
                     <div className='checkbox'>
                       <input type="text" placeholder='Enter your question?' onChange={(e) => handleQuestions(e, index)} />
-                      <button>Add options</button>
+                      {
+                        ques?.options?.map((opt:any, optIndex: number)=>{
+                          return (
+                            <div key={optIndex} className='options'>
+                                <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex)} />
+                                <button onClick={(e)=>handleRemove(e, index, optIndex)}>Remove</button>
+                            </div>
+                          )
+                        })
+                      }
+                      <button onClick={() => addOption('radio',index)}>Add options</button>
                     </div>
                   }
                 </div>
@@ -99,7 +155,8 @@ const Form = () => {
             })
           }
           <div className='submit-btn'>
-            <button>Submit</button>
+            <button onClick={()=>handleSubmit()}>Submit</button><br />
+            {error? <p style={{'color':'red'}}>Please fill all the fields</p>:''}
           </div>
         </div>
       </div>
