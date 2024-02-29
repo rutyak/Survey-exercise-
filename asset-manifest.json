@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/Survey-exercise-/static/css/main.98767353.css",
-    "main.js": "/Survey-exercise-/static/js/main.0e9a83be.js",
+    "main.css": "/Survey-exercise-/static/css/main.e4f72b5c.css",
+    "main.js": "/Survey-exercise-/static/js/main.b6474b4c.js",
     "static/js/453.e553ad6e.chunk.js": "/Survey-exercise-/static/js/453.e553ad6e.chunk.js",
     "static/media/qualitative-research.png": "/Survey-exercise-/static/media/qualitative-research.8d9eb7e6edbabff52027.png",
     "static/media/exam.png": "/Survey-exercise-/static/media/exam.b613103c0a2fa9f0711c.png",
     "index.html": "/Survey-exercise-/index.html",
-    "main.98767353.css.map": "/Survey-exercise-/static/css/main.98767353.css.map",
-    "main.0e9a83be.js.map": "/Survey-exercise-/static/js/main.0e9a83be.js.map",
+    "main.e4f72b5c.css.map": "/Survey-exercise-/static/css/main.e4f72b5c.css.map",
+    "main.b6474b4c.js.map": "/Survey-exercise-/static/js/main.b6474b4c.js.map",
     "453.e553ad6e.chunk.js.map": "/Survey-exercise-/static/js/453.e553ad6e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.98767353.css",
-    "static/js/main.0e9a83be.js"
+    "static/css/main.e4f72b5c.css",
+    "static/js/main.b6474b4c.js"
   ]
 }
