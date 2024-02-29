@@ -4,6 +4,9 @@ import './Form.css'
 
 const Form = () => {
 
+  let optId = Math.ceil(Math.random()* 1000);
+  console.log('optId',optId);
+
   const [error, setError] = useState<boolean>(false);
 
   type typeTitleDesc = {
@@ -15,19 +18,36 @@ const Form = () => {
     desc:''
   })
 
+  type optType = {
+    id:number,
+    text:string
+  }
+
   type queType = {
     type: string,
     question: string,
-    options: string[]
+    options: optType[]
   } 
-  const [que, setQue] = useState<queType[]>([{ type: '', question: '', options: [] }])
+
+  const initialize = [{
+    id:1,
+    text:''
+  }]
+  const [que, setQue] = useState<queType[]>([{ type: '', question: '', options: initialize}])
 
   function addQuestion(type: string) {
-    const opt = [''];
-    setQue([
-      ...que,
-      { type: type, question: '', options: opt }
-    ])
+
+    if(titleDesc.title === '' || titleDesc.desc === ''){
+      setError(true);
+    }
+    else{
+      setError(false);
+      const opt = type!=='input'? [{id:optId, text:''}] : [];
+      setQue([
+        ...que,
+        { type: type, question: '', options: opt }
+      ])
+    }
   }
 
   function handleQuestions(e: React.ChangeEvent<HTMLInputElement>, index: number) {
@@ -37,16 +57,16 @@ const Form = () => {
     object.question = e.target.value; //updating that que
   }
 
-  function handleOptions(e: React.ChangeEvent<HTMLInputElement>, index: number, optIndex: number) {
+  function handleOptions(e: React.ChangeEvent<HTMLInputElement>, index: number, optIndex: number, id:number) {
 
     const question = [...que]; //copy of que array
     const mainQue = {...question[index]}; // taking specific que
-    mainQue.options[optIndex] = e.target.value; //updating that que
+    mainQue.options[optIndex].text = e.target.value; //updating that que
   }
 
   function addOption(type: string, index: number){
     const updatedQue = [...que];  //copy of entire que
-    const opt = [...updatedQue[index].options,''];
+    const opt = [...updatedQue[index].options,{id:optId, text:''}];
 
     updatedQue[index]={ 
       ...updatedQue[index], //copy of specific que
@@ -56,10 +76,10 @@ const Form = () => {
     setQue(updatedQue);
   }
 
-  function handleRemove(e:any, index: number, optIndex: number){
+  function handleRemove(e:any, index: number, optIndex: number, id:number){
     console.log('index: ',optIndex)
     console.log('handleRemove clicked')
-    const removed = que[index]?.options?.filter((_,i)=>(optIndex !== i));
+    const removed = que[index]?.options?.filter((opt:any,i:number)=>(id !== opt.id));
     console.log('removed: ',removed)
 
      const copyQue = [...que];
@@ -69,15 +89,6 @@ const Form = () => {
        options: removed
      }
      setQue(copyQue)
-  }
-
-  function handleSubmit(){
-     console.log('Submit clicked');
-     que?.map((que:any, index:number)=>{
-          if(que.question === ''){
-            setError(true);
-          }
-     })
   }
 
   console.log('que',que)
@@ -99,7 +110,9 @@ const Form = () => {
                 ...titleDesc,
                 title: e.target.value
                })
-            }/>
+            }
+            required
+            />
           </div>
           <div className='desc'>
             <label htmlFor="desc">Description:</label>
@@ -112,8 +125,11 @@ const Form = () => {
                ...titleDesc,
                desc: e.target.value
               })
-            }/>
+            }
+            required
+            />
           </div>
+          {error?<p style={{'color':'red', 'textAlign':'center', 'marginTop': '1rem'}}>Please fill all the fields</p>:''}
         </div>
         <div className='input-type-btn'>
           <button onClick={() => addQuestion('input')}>
@@ -127,22 +143,26 @@ const Form = () => {
           </button>
         </div>
         <div className='questions'>
+          <form action="">
           {
             que?.map((ques: any, index: number) => {
               return (
                 <div key={index}>
                   {ques.type === 'input' &&
-                    <input type="text" placeholder='Enter your question?' onChange={(e) => handleQuestions(e, index)} />
+                    <div>
+                      <input type="text" placeholder='Enter your question?' onChange={(e) => handleQuestions(e, index)} required/>
+                    </div>
                   }
                   {(ques.type === 'checkbox' || ques.type === 'radio') &&
                     <div className='checkbox'>
-                      <input type="text" placeholder='Enter your question?' onChange={(e) => handleQuestions(e, index)} />
+                      <input type="text" placeholder='Enter your question?' onChange={(e) => handleQuestions(e, index)} required/>
+                      {/* {error? <p style={{'color':'red'}}>Please fill the field</p>:''} */}
                       {
                         ques?.options?.map((opt:any, optIndex: number)=>{
                           return (
-                            <div key={optIndex} className='options'>
-                                <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex)} />
-                                <button onClick={(e)=>handleRemove(e, index, optIndex)}>Remove</button>
+                            <div key={opt.id} className='options'>
+                                <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex, opt.id)} required/>
+                                <button onClick={(e)=>handleRemove(e, index, optIndex, opt.id)}>Remove</button>
                             </div>
                           )
                         })
@@ -155,9 +175,9 @@ const Form = () => {
             })
           }
           <div className='submit-btn'>
-            <button onClick={()=>handleSubmit()}>Submit</button><br />
-            {error? <p style={{'color':'red'}}>Please fill all the fields</p>:''}
+            <input type='submit'/>
           </div>
+        </form>
         </div>
       </div>
     </div>

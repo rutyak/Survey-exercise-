@@ -98,9 +98,9 @@
     margin-top: 1.5rem;
 }
 
-.submit-btn button{
-    width: 26%;
-    height: 2rem;
+.submit-btn input{
+    width: 36%;
+    height: 2.2rem;
     border: 1px solid gray;
     border-radius: 0.5rem;
     background: black;
