@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import './Form.css'
+import { toast } from 'react-toastify';
 
 
 const Form = () => {
 
   let optId = Math.ceil(Math.random()* 1000);
-  console.log('optId',optId);
 
-  const [error, setError] = useState<boolean>(false);
+
+  const [disable, setDisable] = useState<boolean>(true);
 
   type typeTitleDesc = {
     title: string,
@@ -23,31 +24,15 @@ const Form = () => {
     text:string
   }
 
-  type queType = {
-    type: string,
-    question: string,
-    options: optType[]
-  } 
-
-  const initialize = [{
-    id:1,
-    text:''
-  }]
-  const [que, setQue] = useState<queType[]>([{ type: '', question: '', options: initialize}])
+  const [que, setQue] = useState<any>([])
 
   function addQuestion(type: string) {
 
-    if(titleDesc.title === '' || titleDesc.desc === ''){
-      setError(true);
-    }
-    else{
-      setError(false);
-      const opt = type!=='input'? [{id:optId, text:''}] : [];
+      const opt = [{id:optId, text:''},{id:optId+1, text:''}];
       setQue([
         ...que,
-        { type: type, question: '', options: opt }
+        type!=='input'? { type: type, question: '', options: opt } : { type: type, question: ''}
       ])
-    }
   }
 
   function handleQuestions(e: React.ChangeEvent<HTMLInputElement>, index: number) {
@@ -77,11 +62,8 @@ const Form = () => {
   }
 
   function handleRemove(e:any, index: number, optIndex: number, id:number){
-    console.log('index: ',optIndex)
-    console.log('handleRemove clicked')
-    const removed = que[index]?.options?.filter((opt:any,i:number)=>(id !== opt.id));
-    console.log('removed: ',removed)
 
+    const removed = que[index]?.options?.filter((opt:any,i:number)=>(id !== opt.id));
      const copyQue = [...que];
      
      copyQue[index] = {
@@ -91,8 +73,11 @@ const Form = () => {
      setQue(copyQue)
   }
 
-  console.log('que',que)
-  console.log('titleDesc',titleDesc)
+  function handleSubmitForm(e:any){
+    e.preventDefault();
+    console.log(que)
+    toast.success('Submit Successfully!!')
+  }
 
   return (
     <div className='form-container'>
@@ -116,8 +101,7 @@ const Form = () => {
           </div>
           <div className='desc'>
             <label htmlFor="desc">Description:</label>
-            <input 
-            type="text" 
+            <textarea  
             id='desc' 
             placeholder='Enter description' 
             onChange={(e)=>
@@ -129,7 +113,6 @@ const Form = () => {
             required
             />
           </div>
-          {error?<p style={{'color':'red', 'textAlign':'center', 'marginTop': '1rem'}}>Please fill all the fields</p>:''}
         </div>
         <div className='input-type-btn'>
           <button onClick={() => addQuestion('input')}>
@@ -143,7 +126,7 @@ const Form = () => {
           </button>
         </div>
         <div className='questions'>
-          <form action="">
+          <form action="" onSubmit={(e)=>handleSubmitForm(e)}>
           {
             que?.map((ques: any, index: number) => {
               return (
@@ -175,7 +158,7 @@ const Form = () => {
             })
           }
           <div className='submit-btn'>
-            <input type='submit'/>
+            <input type='submit' disabled={que.length===0}/>
           </div>
         </form>
         </div>
