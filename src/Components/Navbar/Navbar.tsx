@@ -1,7 +1,6 @@
-import React from 'react'
-import icon from '../Assets/qualitative-research.png'
+import icon from '../../Assets/qualitative-research.png'
 import './Navbar.css'
-import formIcon from '../Assets/exam.png'
+import formIcon from '../../Assets/exam.png'
 
 const Navbar = () => {
   return (
