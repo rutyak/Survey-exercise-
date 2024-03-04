@@ -34,9 +34,27 @@
     margin-right: 4rem;
 }
 
+.error {
+    display: flex;
+    align-items: center;
+    margin-left: 6.5rem;
+}
+
+.error img{
+    width: 0.8rem;
+    margin-right: 0.3rem;
+    margin-top: 0.1rem;
+}
+
+.error p{
+    color: #d72828;
+    font-size: 0.8rem;
+}
+
 .desc{
     display: flex;
 }
+
 .desc label{
     margin-right: 1rem;
 }
