@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/Survey-exercise-/static/css/main.dacd4a19.css",
-    "main.js": "/Survey-exercise-/static/js/main.f64d19db.js",
+    "main.css": "/Survey-exercise-/static/css/main.f1dbf773.css",
+    "main.js": "/Survey-exercise-/static/js/main.0891dddd.js",
     "static/js/453.e553ad6e.chunk.js": "/Survey-exercise-/static/js/453.e553ad6e.chunk.js",
     "static/media/qualitative-research.png": "/Survey-exercise-/static/media/qualitative-research.8d9eb7e6edbabff52027.png",
     "static/media/exam.png": "/Survey-exercise-/static/media/exam.b613103c0a2fa9f0711c.png",
     "index.html": "/Survey-exercise-/index.html",
-    "main.dacd4a19.css.map": "/Survey-exercise-/static/css/main.dacd4a19.css.map",
-    "main.f64d19db.js.map": "/Survey-exercise-/static/js/main.f64d19db.js.map",
+    "main.f1dbf773.css.map": "/Survey-exercise-/static/css/main.f1dbf773.css.map",
+    "main.0891dddd.js.map": "/Survey-exercise-/static/js/main.0891dddd.js.map",
     "453.e553ad6e.chunk.js.map": "/Survey-exercise-/static/js/453.e553ad6e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.dacd4a19.css",
-    "static/js/main.f64d19db.js"
+    "static/css/main.f1dbf773.css",
+    "static/js/main.0891dddd.js"
   ]
 }
