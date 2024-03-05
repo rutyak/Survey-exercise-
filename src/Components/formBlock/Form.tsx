@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import './Form.css'
-import { toast } from 'react-toastify';
 import Button from '../Button/Button';
+import Questions from './Questions/Questions';
 import errorIcon from '../../Assets/381599_error_icon.png'
 
 const Form = () => {
 
   let optId = Math.ceil(Math.random() * 1000);
+  let queId = Math.ceil(Math.random() * 10000);
   let typeArr = ['Input', 'Checkbox', 'Radio'];
 
   type opt = {
@@ -15,6 +16,7 @@ const Form = () => {
   }
 
   type queType = {
+    id: number,
     type: string,
     questions: string,
     options: opt[]
@@ -35,7 +37,6 @@ const Form = () => {
   const [error, setError] = useState<any>({
     title: false,
     desc: false,
-    descLen: false
   })
 
   function addQuestion(type: string) {
@@ -45,21 +46,27 @@ const Form = () => {
       ...prevSurvey,
       questions: [
         ...prevSurvey.questions,
-        type === 'Input' ? { type: type, questions: '' } : { type: type, questions: '', options: opt }
+        type === 'Input' ? { id:queId, type: type, questions: '' } : { id:queId+1, type: type, questions: '', options: opt }
       ],
     }));
 
     setError({
       ...error,
-      desc: survey.desc === ''
+      desc: survey.desc === '',
+      title: survey.title === ''
     })
   }
 
-  function handlesurveystions(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+  function handleQuestions(e: React.ChangeEvent<HTMLInputElement>, index: number) {
 
     const copySurvey = { ...survey }; //copy of survey 
     const object = copySurvey.questions[index]; // taking que array
     object.questions = e.target.value; //updating that que
+
+    setError({
+      ...error,
+      que: copySurvey.questions[index].questions === ''
+    })
   }
 
   function handleOptions(e: React.ChangeEvent<HTMLInputElement>, index: number, optIndex: number) {
@@ -67,6 +74,11 @@ const Form = () => {
     const copySurvey = { ...survey }; //copy of survey
     const mainQue = { ...copySurvey.questions[index] }; // taking specific que
     mainQue.options[optIndex].text = e.target.value; //updating that ques option
+
+    setError({
+      ...error,
+      opt: survey.questions[index].options[optIndex].text === ''
+    })
   }
 
   function addOption(index: number) {
@@ -77,12 +89,10 @@ const Form = () => {
       ...copySurvey.questions[index], //copy of specific que
       options: opt  //updating specific ques options
     };
-
     setSurvey(copySurvey);
   }
 
   function handleRemove(index: number, id: number) {
-
     const removed = survey.questions[index]?.options?.filter((opt: opt) => (id !== opt.id));
     const copysurvey = { ...survey };
 
@@ -92,15 +102,6 @@ const Form = () => {
     }
     setSurvey(copysurvey)
   }
-
-  function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    console.log(survey)
-    toast.success('Submit Successfully!!')
-  }
-
-  console.log('desclength: ', survey.desc.trim().length);
 
   return (
     <div className='form-container'>
@@ -113,7 +114,7 @@ const Form = () => {
               type="text"
               id='title'
               placeholder='Enter title'
-              onChange={(e) =>{
+              onChange={(e) => {
                 setSurvey({
                   ...survey,
                   title: e.target.value
@@ -143,18 +144,19 @@ const Form = () => {
                 })
                 setError({
                   ...error,
-                  title: survey.title === ''
+                  title: survey.title === '',
+                  desc: survey.desc === ''
                 })
               }}
               required
             />
           </div>
-            { 
-              error.desc ? <div className='error'><img src={errorIcon} alt="icon" /><p>Description is required</p></div> : ''
-            }
-            { 
-              error.descLen? <div className='error'><img src={errorIcon} alt="icon" /><p>Description must contains 30 to 40 char</p></div> : ''
-            }
+          {
+            error.desc ? <div className='error'><img src={errorIcon} alt="icon" /><p>Description is required</p></div> : ''
+          }
+          {
+            survey.desc.replace(/\s/g, '').length < 40 && survey.desc !== '' ? <div className='error'><img src={errorIcon} alt="icon" /><p>Description must contains char above 40</p></div> : ''
+          }
         </div>
         <div className='input-type-btn'>
           {
@@ -165,42 +167,14 @@ const Form = () => {
             ))
           }
         </div>
-        <div className='questions'>
-          <form action="" onSubmit={(e) => handleSubmitForm(e)}>
-            {
-              survey.questions?.map((que: queType, index: number) => {
-                return (
-                  <div key={index}>
-                    {que.type === 'Input' &&
-                      <div>
-                        <input type="text" placeholder='Enter your surveystion?' onChange={(e) => handlesurveystions(e, index)} required />
-                      </div>
-                    }
-                    {(que.type === 'Checkbox' || que.type === 'Radio') &&
-                      <div className='checkbox'>
-                        <input type="text" placeholder='Enter your questions?' onChange={(e) => handlesurveystions(e, index)} required />
-                        {
-                          que?.options?.map((opt: opt, optIndex: number) => {
-                            return (
-                              <div key={opt.id} className='options'>
-                                <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex)} required />
-                                <button onClick={() => handleRemove(index, opt.id)}>Remove</button>
-                              </div>
-                            )
-                          })
-                        }
-                        <button onClick={() => addOption(index)}>Add options</button>
-                      </div>
-                    }
-                  </div>
-                )
-              })
-            }
-            <div className='submit-btn'>
-              <input type='submit' disabled={survey.questions?.length === 0} />
-            </div>
-          </form>
-        </div>
+        <Questions 
+        handleQuestions={handleQuestions} 
+        survey={survey} 
+        handleOptions={handleOptions} 
+        handleRemove={handleRemove} 
+        addOption={addOption}
+        error={error}
+        />
       </div>
     </div>
 
