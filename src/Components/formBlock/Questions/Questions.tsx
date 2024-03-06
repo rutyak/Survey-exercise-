@@ -3,7 +3,7 @@ import Error from '../Error/Error'
 import './Questions.css'
 import { toast } from 'react-toastify'
 
-const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOption }: any) => {
+const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOption, error, setError}: any) => {
 
     type opt = {
         id: number,
@@ -19,32 +19,20 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
 
     const [isSubmitClicked, setIsSubmitClicked] = useState<boolean>(false);
 
-// function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
-//     e.preventDefault();
-//     setIsSubmitClicked(true);
-
-//     const validQuestions = survey.questions?.every((que: queType) => {
-//         if (que.type === 'Input') {
-//             return que.questions.length >= 10;
-//         }
-//         return true; // For other question types
-//     });
-
-//     if (survey.title !== '' && survey.desc !== '' && validQuestions) {
-//         console.log(survey);
-//         toast.success('Submit Successfully!!');
-//     }
-// }
-
 
 
     function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        console.log('submit clicked')
         setIsSubmitClicked(true);
-        const validQuestions = survey.questions?.map((que: queType) => {
+        const validQuestions = survey.questions?.every((que: queType) => {
             return que.questions.length >= 10;
         });
+
+        setError({
+            ...error,
+            title: survey.title === '',
+            desc: survey.desc === ''
+        })
 
         if(survey.title!=='' && survey.desc!=='' && survey.desc.replace(/\s/g, '').length > 40 && validQuestions){
             console.log(survey)
@@ -91,7 +79,7 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
                                                     <div key={opt.id} className='options'>
                                                         <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex)} required />
                                                         <button onClick={() => handleRemove(index, opt.id)}>Remove</button>
-                                                        {survey.questions[index].options[optIndex].id === opt.id && survey.questions[index].options[optIndex].text === ''?(
+                                                        {(survey.questions[index].options[optIndex].id === opt.id && survey.questions[index].options[optIndex].text === '')?(
                                                             <Error text={'Option is required'}/>
                                                         ) : ''
                                                         }
@@ -107,7 +95,7 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
                     })
                 }
                 <div className='submit-btn'>
-                    <input type='submit' />
+                    <input type='submit' disabled={survey.questions?.length === 0 && isSubmitClicked } />
                 </div>
             </form>
         </div>

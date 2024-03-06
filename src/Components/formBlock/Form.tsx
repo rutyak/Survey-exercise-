@@ -127,7 +127,7 @@ const Form = () => {
               }
               required
             />
-            {error.title ? (
+            {survey.title === '' && error.title ? (
               <div className='error'><img src={errorIcon} alt="icon" /><p>Title is required</p></div>
             ) : ''
             }
@@ -152,10 +152,14 @@ const Form = () => {
             />
           </div>
           {
-            error.desc ? <div className='error'><img src={errorIcon} alt="icon" /><p>Description is required</p></div> : ''
+            error.desc ?(
+               <div className='error'><img src={errorIcon} alt="icon" /><p>Description is required</p></div> 
+               ): ''
           }
           {
-            survey.desc.replace(/\s/g, '').length < 40 && survey.desc !== '' ? <div className='error'><img src={errorIcon} alt="icon" /><p>Description must contains char above 40</p></div> : ''
+            survey.desc.replace(/\s/g, '').length < 40 && survey.desc !== '' ? (
+            <div className='error'><img src={errorIcon} alt="icon" /><p>Description must contains char above 40</p></div> 
+            ): ''
           }
         </div>
         <div className='input-type-btn'>
@@ -174,6 +178,7 @@ const Form = () => {
         handleRemove={handleRemove} 
         addOption={addOption}
         error={error}
+        setError={setError}
         />
       </div>
     </div>
