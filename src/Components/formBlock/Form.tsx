@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Form.css'
 import Button from '../Button/Button';
 import Questions from './Questions/Questions';
-import errorIcon from '../../Assets/381599_error_icon.png'
+import errorIcon from '../../Assets/error.png'
 
 const Form = () => {
 
@@ -46,7 +46,7 @@ const Form = () => {
       ...prevSurvey,
       questions: [
         ...prevSurvey.questions,
-        type === 'Input' ? { id:queId, type: type, questions: '' } : { id:queId+1, type: type, questions: '', options: opt }
+        type === 'Input' ? { id: queId, type: type, questions: '' } : { id: queId + 1, type: type, questions: '', options: opt }
       ],
     }));
 
@@ -127,9 +127,13 @@ const Form = () => {
               }
               required
             />
-            {survey.title === '' && error.title ? (
-              <div className='error'><img src={errorIcon} alt="icon" /><p>Title is required</p></div>
-            ) : ''
+            {survey.title === '' && error.title &&
+              (
+                <div className='error'>
+                  <img src={errorIcon} alt="icon" />
+                  <p>Title is required</p>
+                </div>
+              )
             }
           </div>
           <div className='desc'>
@@ -151,15 +155,17 @@ const Form = () => {
               required
             />
           </div>
-          {
-            error.desc ?(
-               <div className='error'><img src={errorIcon} alt="icon" /><p>Description is required</p></div> 
-               ): ''
+          {error.desc &&
+            <div className='error'>
+              <img src={errorIcon} alt="icon" />
+              <p>Description is required</p>
+            </div>
           }
-          {
-            survey.desc.replace(/\s/g, '').length < 40 && survey.desc !== '' ? (
-            <div className='error'><img src={errorIcon} alt="icon" /><p>Description must contains char above 40</p></div> 
-            ): ''
+          {survey.desc.replace(/\s/g, '').length < 40 && survey.desc !== '' &&
+            <div className='error'>
+              <img src={errorIcon} alt="icon" />
+              <p>Description must contains char above 40</p>
+            </div>
           }
         </div>
         <div className='input-type-btn'>
@@ -171,14 +177,14 @@ const Form = () => {
             ))
           }
         </div>
-        <Questions 
-        handleQuestions={handleQuestions} 
-        survey={survey} 
-        handleOptions={handleOptions} 
-        handleRemove={handleRemove} 
-        addOption={addOption}
-        error={error}
-        setError={setError}
+        <Questions
+          handleQuestions={handleQuestions}
+          survey={survey}
+          handleOptions={handleOptions}
+          handleRemove={handleRemove}
+          addOption={addOption}
+          error={error}
+          setError={setError}
         />
       </div>
     </div>

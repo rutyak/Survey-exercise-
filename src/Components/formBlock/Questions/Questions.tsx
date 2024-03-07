@@ -50,28 +50,25 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
                                 {que.type === 'Input' &&
                                     <div>
                                         <input type="text" placeholder='Enter your questions?' onChange={(e) => handleQuestions(e, index)} required />
-                                        { ( survey.questions[index].questions===''&& survey.questions[index].id === que.id)?(
+                                        { survey.questions[index].questions===''&& survey.questions[index].id === que.id &&
                                             <Error text={'Question is required'}/>
-                                        ) : ''
                                         }
-                                        {
-                                            (survey.questions[index].questions.replace(/\s/g, '').length < 10 && survey.questions[index].questions !== '' && isSubmitClicked)?( 
+                                        { survey.questions[index].questions.replace(/\s/g, '').length < 10 && survey.questions[index].questions !== '' && isSubmitClicked &&
                                                 <Error text={'Question must contains char above 10'}/>
-                                            ) : ''
                                         }
                                     </div>
                                 }
                                 {(que.type === 'Checkbox' || que.type === 'Radio') &&
                                     <div className='checkbox'>
                                         <input type="text" placeholder='Enter your questions?' onChange={(e) => handleQuestions(e, index)} required />
-                                        {(survey.questions[index].questions==='' && survey.questions[index].id === que.id)? (
+                                        { survey.questions[index].questions==='' && survey.questions[index].id === que.id &&
                                             <Error text={'Question is required'}/>
-                                        ) : ''
                                         }
-                                        {
-                                            (survey.questions[index].questions.replace(/\s/g, '').length < 10 && survey.questions[index].questions !== '' && isSubmitClicked)?(
+                                        { survey.questions[index].questions.replace(/\s/g, '').length < 10 && survey.questions[index].questions !== '' && isSubmitClicked &&
                                                 <Error text={'Question must contains char above 10'}/> 
-                                            ) : ''
+                                        }
+                                        { survey.questions[index].options.length < 2 && 
+                                                <Error text={'Please add at least two options'}/> 
                                         }
                                         {
                                             que?.options?.map((opt: opt, optIndex: number) => {
@@ -79,9 +76,8 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
                                                     <div key={opt.id} className='options'>
                                                         <input type="text" placeholder='Option' onChange={(e) => handleOptions(e, index, optIndex)} required />
                                                         <button onClick={() => handleRemove(index, opt.id)}>Remove</button>
-                                                        {(survey.questions[index].options[optIndex].id === opt.id && survey.questions[index].options[optIndex].text === '')?(
+                                                        { survey.questions[index].options[optIndex].id === opt.id && survey.questions[index].options[optIndex].text === '' &&
                                                             <Error text={'Option is required'}/>
-                                                        ) : ''
                                                         }
                                                     </div>
                                                 )
