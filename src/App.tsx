@@ -1,11 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './Components/Navbar/Navbar';
+import Form from './Components/Blocks/Formblock/Form';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import Preview from './Components/Blocks/Preview/Preview';
 
 function App() {
   return (
     <div className="App">
-        <h1>Working fine</h1>
+      <Navbar/>
+           <Routes>
+             <Route path='/' element={<Form/>}/>
+             <Route path='/preview' element={<Preview/>}/>
+           </Routes>   
     </div>
   );
 }
