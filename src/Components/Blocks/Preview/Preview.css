@@ -1,0 +1,42 @@
+.preview-que{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    height: 100%;
+    width: 83%;
+    margin: auto;
+    padding: 2rem;
+    background: #5f4b30;
+
+}
+
+.question-input p{
+    font-size: large;
+    margin-top: 1rem;
+}
+
+.question-input .input-type{
+    width: 40%;
+    height: 2rem;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+}
+
+.question-check-radio input{
+    font-size: large;
+    margin-top: 0.5rem;
+    margin-right: 0.3rem;
+}
+
+.question-check-radio label{
+    font-size: medium;
+}
+
+.preview-submit-btn button{
+    margin-top: 2rem;
+    width: 8rem;
+    height: 2rem;
+    background: aquamarine;
+}

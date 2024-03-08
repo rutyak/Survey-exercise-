@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './Form.css'
-import Button from '../Button/Button';
+import Button from '../../Button/Button';
 import Questions from './Questions/Questions';
-import errorIcon from '../../Assets/error.png'
+import errorIcon from '../../../Assets/error.png'
 
 const Form = () => {
 
@@ -37,6 +37,9 @@ const Form = () => {
   const [error, setError] = useState<any>({
     title: false,
     desc: false,
+    que: false,
+    opt: false,
+    optLen: false
   })
 
   function addQuestion(type: string) {

@@ -24,19 +24,38 @@ const Questions = ({ survey, handleQuestions, handleOptions, handleRemove, addOp
     function handleSubmitForm(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setIsSubmitClicked(true);
-        const validQuestions = survey.questions?.every((que: queType) => {
+    
+        let ans: any[] = [];
+    
+        const validQue = survey.questions?.every((que: queType) => {
             return que.questions.length >= 10;
         });
-
+    
+        survey.questions?.forEach((que: queType) => {
+            if (que.type === 'Checkbox' || que.type === 'Radio') {
+                ans[1] = que.type === 'Checkbox' || que.type === 'Radio';
+                ans[2] = que.options.length >= 2; 
+                ans[3] = que.questions.length >= 10;
+            }
+        });
+    
         setError({
             ...error,
             title: survey.title === '',
             desc: survey.desc === ''
-        })
-
-        if(survey.title!=='' && survey.desc!=='' && survey.desc.replace(/\s/g, '').length > 40 && validQuestions){
-            console.log(survey)
-            toast.success('Submit Successfully!!')
+        });
+    
+        if (
+            survey.title !== '' &&
+            survey.desc !== '' &&
+            survey.desc.replace(/\s/g, '').length > 40 &&
+            (ans[1] ? ans[2] : true) && 
+            validQue
+        ) {
+            console.log(survey);
+            localStorage.setItem('survey',JSON.stringify(survey));
+            toast.success('Submit Successfully!!');
+            console.log('fromLocal: ',localStorage.getItem('survey'));
         }
     }
     

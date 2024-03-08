@@ -1,5 +1,5 @@
 import './Error.css'
-import errorIcon from '../../../Assets/error.png'
+import errorIcon from '../../../../Assets/error.png'
 
 const Error = ({text}:any) => {
   return (
